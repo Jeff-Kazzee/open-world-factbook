@@ -306,7 +306,7 @@ export default async function RegionPage({ params }: PageProps) {
               >
                 <div className="flex items-center gap-3 mb-3">
                   <Image
-                    src={`https://flagcdn.com/w80/${country.code}.png`}
+                    src={`https://flagcdn.com/w80/${country.flagCode}.png`}
                     alt={`${country.name} flag`}
                     width={48}
                     height={32}
