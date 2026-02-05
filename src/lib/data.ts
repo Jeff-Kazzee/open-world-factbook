@@ -7,7 +7,7 @@ import { Country, CountryIndex, Region } from './types';
 import fs from 'fs';
 import path from 'path';
 
-const DATA_DIR = path.join(process.cwd(), '..', 'data', 'factbook-json', 'factbook.json-master');
+const DATA_DIR = path.join(process.cwd(), 'data');
 
 // Region mapping from folder names to display names
 const REGION_DISPLAY_NAMES: Record<string, string> = {
