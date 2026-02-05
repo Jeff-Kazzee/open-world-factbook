@@ -34,7 +34,7 @@ export default function Footer() {
           <div className="flex flex-col sm:flex-row gap-8 items-center md:items-start">
             <div className="flex flex-col gap-2 text-sm text-center md:text-left">
               <Link href="/about" className="text-[var(--text-muted)] hover:text-[var(--accent-gold)]">About Project</Link>
-              <Link href="/api" className="text-[var(--text-muted)] hover:text-[var(--accent-gold)]">Data API</Link>
+              <Link href="/api-docs" className="text-[var(--text-muted)] hover:text-[var(--accent-gold)]">Data API</Link>
               <Link href="/contribute" className="text-[var(--text-muted)] hover:text-[var(--accent-gold)]">Contribute</Link>
             </div>
             
