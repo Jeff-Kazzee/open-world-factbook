@@ -17,7 +17,7 @@ export default function Footer() {
             </p>
             <div className="flex gap-4 justify-center md:justify-start">
               <a 
-                href="https://github.com/openworldfactbook/factbook" 
+                href="https://github.com/Jeff-Kazzee/open-world-factbook" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
