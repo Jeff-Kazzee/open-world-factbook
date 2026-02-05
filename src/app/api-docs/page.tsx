@@ -43,7 +43,7 @@ export default function APIPage() {
               href="https://github.com/Jeff-Kazzee/open-world-factbook/tree/master/data"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-[var(--accent-gold)] text-[var(--bg-primary)] px-4 py-2 rounded-lg hover:bg-yellow-400 transition-colors font-medium"
+              className="inline-flex items-center gap-2 bg-[var(--accent-gold)] text-[#111110] px-4 py-2 rounded-lg hover:bg-yellow-400 transition-colors font-medium"
             >
               Browse Data Files →
             </a>
