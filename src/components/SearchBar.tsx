@@ -8,6 +8,7 @@ import Fuse from 'fuse.js';
 interface CountrySearchItem {
   name: string;
   code: string;
+  flagCode: string;
   slug: string;
   region: string;
   capital?: string;
@@ -60,10 +61,13 @@ export default function SearchBar({ countries }: { countries: CountrySearchItem[
       <input
         type="text"
         value={query}
-        onChange={(e) => setQuery(e.target.value)}
+        onChange={(e) => {
+          setQuery(e.target.value);
+          setIsOpen(true);
+        }}
         placeholder="Search countries, regions, capitals..."
         className="search-input w-full"
-        onFocus={() => query && setIsOpen(true)}
+        onFocus={() => setIsOpen(true)}
         onKeyDown={(e) => {
           if (e.key === 'Escape') setIsOpen(false);
         }}
@@ -83,14 +87,16 @@ export default function SearchBar({ countries }: { countries: CountrySearchItem[
               }}
             >
               {/* Flag */}
-              <Image
-                src={`https://flagcdn.com/w40/${country.code}.png`}
-                alt={`${country.name} flag`}
-                width={32}
-                height={24}
-                className="rounded object-cover"
-                unoptimized
-              />
+              {country.flagCode && (
+                <Image
+                  src={`https://flagcdn.com/w40/${country.flagCode}.png`}
+                  alt={`${country.name} flag`}
+                  width={32}
+                  height={24}
+                  className="rounded object-cover"
+                  unoptimized
+                />
+              )}
               
               {/* Country Info */}
               <div className="flex-1">

@@ -4,6 +4,7 @@
  */
 
 import { Country, CountryIndex, Region } from './types';
+import { getISOCode } from './countryCodeMap';
 import fs from 'fs';
 import path from 'path';
 
@@ -68,10 +69,14 @@ function parseCountryFile(filePath: string, region: string): Country | null {
       .replace(/-+/g, '-');
     
     CODE_TO_NAME[code] = name;
-    
+
+    // Get ISO code for flag API
+    const flagCode = getISOCode(code);
+
     return {
       slug,
       code,
+      flagCode,
       name,
       region,
       ...data
@@ -112,6 +117,7 @@ export function getCountryIndex(): CountryIndex[] {
   return countries.map(country => ({
     slug: country.slug,
     code: country.code,
+    flagCode: country.flagCode,
     name: country.name,
     region: country.region,
     population: extractPopulation(country),

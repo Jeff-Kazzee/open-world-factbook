@@ -207,11 +207,13 @@ export default async function CountryPage({ params }: PageProps) {
           {/* Country Title */}
           <div className="flex items-center gap-6 mb-8">
             {/* Large Flag */}
-            <img 
-              src={`https://flagcdn.com/w320/${country.code}.png`}
-              alt={`Flag of ${country.name}`}
-              className="w-32 h-auto rounded-lg shadow-lg border border-[var(--border-subtle)]"
-            />
+            {country.flagCode && (
+              <img
+                src={`https://flagcdn.com/w320/${country.flagCode}.png`}
+                alt={`Flag of ${country.name}`}
+                className="w-32 h-auto rounded-lg shadow-lg border border-[var(--border-subtle)]"
+              />
+            )}
             <div>
               <h1 className="text-4xl md:text-5xl font-serif text-[var(--text-primary)] mb-2">
                 {country.name}

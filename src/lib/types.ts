@@ -19,6 +19,7 @@ export interface Category {
 export interface Country {
   slug: string;
   code: string;
+  flagCode: string; // ISO 3166-1 alpha-2 code for flag API
   name: string;
   region: string;
   
@@ -41,6 +42,7 @@ export interface Country {
 export interface CountryIndex {
   slug: string;
   code: string;
+  flagCode: string; // ISO 3166-1 alpha-2 code for flag API
   name: string;
   region: string;
   population?: string;

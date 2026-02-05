@@ -64,14 +64,16 @@ export default function HomePage() {
                 href={`/country/${country.slug}`}
                 className="country-card"
               >
-                <div 
-                  className="flag"
-                  style={{
-                    backgroundImage: `url(https://flagcdn.com/w80/${country.code === 'us' ? 'us' : country.code}.png)`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center'
-                  }}
-                />
+                {country.flagCode && (
+                  <div
+                    className="flag"
+                    style={{
+                      backgroundImage: `url(https://flagcdn.com/w80/${country.flagCode}.png)`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center'
+                    }}
+                  />
+                )}
                 <div className="info">
                   <h4>{country.name}</h4>
                   <span className="region">{country.region.replace(/-/g, ' ')}</span>
