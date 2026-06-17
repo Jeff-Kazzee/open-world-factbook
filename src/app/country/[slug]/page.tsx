@@ -39,10 +39,15 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 // Clean text helper
-function cleanText(obj: any): string {
+function cleanText(obj: unknown): string {
   if (!obj) return '';
   if (typeof obj === 'string') return stripHtml(obj);
-  if (obj?.text) return stripHtml(obj.text);
+  if (typeof obj === 'object' && obj !== null && 'text' in obj) {
+    const textVal = (obj as Record<string, unknown>).text;
+    if (typeof textVal === 'string') {
+      return stripHtml(textVal);
+    }
+  }
   return '';
 }
 
