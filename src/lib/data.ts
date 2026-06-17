@@ -30,6 +30,12 @@ const REGION_DISPLAY_NAMES: Record<string, string> = {
 // Country code to name mapping (extracted from data)
 const CODE_TO_NAME: Record<string, string> = {};
 
+// Cache variables
+let cachedCountries: Country[] | null = null;
+let cachedCountryIndex: CountryIndex[] | null = null;
+let countryBySlugMap: Map<string, Country> | null = null;
+let countryByCodeMap: Map<string, Country> | null = null;
+
 /**
  * Get all region directories
  */
@@ -91,6 +97,10 @@ function parseCountryFile(filePath: string, region: string): Country | null {
  * Get all countries
  */
 export function getAllCountries(): Country[] {
+  if (cachedCountries) {
+    return cachedCountries;
+  }
+
   const countries: Country[] = [];
   
   for (const regionDir of getRegionDirs()) {
@@ -105,16 +115,20 @@ export function getAllCountries(): Country[] {
     }
   }
   
-  return countries.sort((a, b) => a.name.localeCompare(b.name));
+  cachedCountries = countries.sort((a, b) => a.name.localeCompare(b.name));
+  return cachedCountries;
 }
 
 /**
  * Get country index (lightweight summary for listings)
  */
 export function getCountryIndex(): CountryIndex[] {
+  if (cachedCountryIndex) {
+    return cachedCountryIndex;
+  }
   const countries = getAllCountries();
   
-  return countries.map(country => ({
+  cachedCountryIndex = countries.map(country => ({
     slug: country.slug,
     code: country.code,
     flagCode: country.flagCode,
@@ -124,22 +138,35 @@ export function getCountryIndex(): CountryIndex[] {
     capital: extractCapital(country),
     area: extractArea(country),
   }));
+  return cachedCountryIndex;
 }
 
 /**
  * Get a single country by slug
  */
 export function getCountryBySlug(slug: string): Country | null {
-  const countries = getAllCountries();
-  return countries.find(c => c.slug === slug) || null;
+  if (!countryBySlugMap) {
+    countryBySlugMap = new Map();
+    const countries = getAllCountries();
+    for (const c of countries) {
+      countryBySlugMap.set(c.slug, c);
+    }
+  }
+  return countryBySlugMap.get(slug) || null;
 }
 
 /**
  * Get a single country by code
  */
 export function getCountryByCode(code: string): Country | null {
-  const countries = getAllCountries();
-  return countries.find(c => c.code === code) || null;
+  if (!countryByCodeMap) {
+    countryByCodeMap = new Map();
+    const countries = getAllCountries();
+    for (const c of countries) {
+      countryByCodeMap.set(c.code, c);
+    }
+  }
+  return countryByCodeMap.get(code) || null;
 }
 
 /**
