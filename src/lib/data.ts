@@ -161,12 +161,39 @@ export function getCountryBySlug(slug: string): Country | null {
 export function getCountryByCode(code: string): Country | null {
   if (!countryByCodeMap) {
     countryByCodeMap = new Map();
-    const countries = getAllCountries();
-    for (const c of countries) {
-      countryByCodeMap.set(c.code, c);
+  }
+
+  if (countryByCodeMap.has(code)) {
+    return countryByCodeMap.get(code) || null;
+  }
+
+  // Basic path traversal prevention - codes should only be alphanumeric + hyphens
+  if (!/^[a-zA-Z0-9_-]+$/.test(code)) {
+    return null;
+  }
+
+  // Fast path: find the file directly instead of parsing all countries
+  for (const regionDir of getRegionDirs()) {
+    const filePath = path.join(DATA_DIR, regionDir, `${code}.json`);
+    if (fs.existsSync(filePath)) {
+      const country = parseCountryFile(filePath, regionDir);
+      if (country) {
+        countryByCodeMap.set(code, country);
+        return country;
+      }
     }
   }
-  return countryByCodeMap.get(code) || null;
+
+  // Fallback to checking the full list if it's already cached
+  if (cachedCountries) {
+    const found = cachedCountries.find(c => c.code === code);
+    if (found) {
+      countryByCodeMap.set(code, found);
+      return found;
+    }
+  }
+
+  return null;
 }
 
 /**
