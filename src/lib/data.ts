@@ -167,6 +167,11 @@ export function getCountryByCode(code: string): Country | null {
     return countryByCodeMap.get(code) || null;
   }
 
+  // Basic path traversal prevention - codes should only be alphanumeric + hyphens
+  if (!/^[a-zA-Z0-9_-]+$/.test(code)) {
+    return null;
+  }
+
   // Fast path: find the file directly instead of parsing all countries
   for (const regionDir of getRegionDirs()) {
     const filePath = path.join(DATA_DIR, regionDir, `${code}.json`);
