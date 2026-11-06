@@ -79,8 +79,8 @@ Deployed at <https://worldfactbook.xyz>. On 2026-11-06 the home, country, region
 about, API and contribute pages each returned HTTP 200.
 
 - Works: home page search, region and country pages, and raw JSON from GitHub. Each was checked on 2026-11-06.
-- Missing: a hosted API, automated tests, and a way to refresh the data from its source.
-- Data age: the profiles are a snapshot. Figures carry their own year, such as `2024 est.` in the Japan file.
+- Missing: a hosted API and automated tests.
+- Data age: the CIA ended the Factbook in February 2026, so these profiles are a final snapshot. Figures carry their own year, such as `2024 est.` in the Japan file.
 
 ## License
 
