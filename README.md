@@ -121,10 +121,14 @@ about, API and contribute pages each returned HTTP 200.
 Keep application changes separate from unrelated data refreshes. Include what
 you checked and any limits when proposing a change.
 
-The [ci workflow](.github/workflows/ci.yml) is committed locally. It has not been
-pushed or run on hosted GitHub Actions. It declares a `pull_request` trigger,
+The [ci workflow](.github/workflows/ci.yml) declares a `pull_request` trigger,
 and its `push` trigger covers only `dev` and `prod`. Changes on another branch
 can be checked through a pull request.
+
+On 2026-11-14, the application and CI files recorded in commit
+[`aab1c3a5caa08e4aa17c9ca1c93654ae7ad55943`](https://github.com/Jeff-Kazzee/open-world-factbook/commit/aab1c3a5caa08e4aa17c9ca1c93654ae7ad55943)
+passed these workflow commands locally on Debian 13 Linux. See the pull
+request's checks for hosted results at its current head.
 
 The workflow uses `ubuntu-24.04`, pins Node 24.22.3 and checks for its bundled
 npm 11.19.1. After checking those versions, it runs these commands:
