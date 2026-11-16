@@ -3,7 +3,7 @@
  * Parses factbook.json data and provides access functions
  */
 
-import { Country, CountryIndex, Region } from './types';
+import { Country, CountryIndex, Region, TextField } from './types';
 import { getISOCode } from './countryCodeMap';
 import fs from 'fs';
 import path from 'path';
@@ -221,7 +221,7 @@ export function getCountriesByRegion(region: string): CountryIndex[] {
 // Helper functions to extract key stats
 
 function extractPopulation(country: Country): string | undefined {
-  const pop = country['People and Society']?.Population as any;
+  const pop = country['People and Society']?.Population as { total?: TextField } | undefined;
   if (pop?.total?.text) {
     return pop.total.text;
   }
@@ -229,7 +229,7 @@ function extractPopulation(country: Country): string | undefined {
 }
 
 function extractCapital(country: Country): string | undefined {
-  const cap = country.Government?.Capital as any;
+  const cap = country.Government?.Capital as { name?: TextField } | undefined;
   if (cap?.name?.text) {
     return cap.name.text.replace(/<[^>]*>/g, '');
   }
@@ -237,7 +237,7 @@ function extractCapital(country: Country): string | undefined {
 }
 
 function extractArea(country: Country): string | undefined {
-  const area = country.Geography?.Area as any;
+  const area = country.Geography?.Area as Partial<Record<'total ' | 'total', TextField>> | undefined;
   if (area?.['total ']?.text) {
     return area['total '].text;
   }
@@ -250,11 +250,11 @@ function extractArea(country: Country): string | undefined {
 /**
  * Extract a specific field value from country data
  */
-export function extractFieldValue(obj: any, path: string[]): string | null {
+export function extractFieldValue(obj: unknown, path: string[]): string | null {
   let current = obj;
   for (const key of path) {
     if (current && typeof current === 'object' && key in current) {
-      current = current[key];
+      current = (current as Record<string, unknown>)[key];
     } else {
       return null;
     }
@@ -263,8 +263,8 @@ export function extractFieldValue(obj: any, path: string[]): string | null {
   if (typeof current === 'string') {
     return current;
   }
-  if (current?.text) {
-    return current.text;
+  if ((current as Partial<TextField> | null | undefined)?.text) {
+    return (current as TextField).text;
   }
   return null;
 }

@@ -1,0 +1,5 @@
+packages:
+  - '.'
+
+overrides:
+  '@typescript-eslint/typescript-estree@8>minimatch': '11.0.8'

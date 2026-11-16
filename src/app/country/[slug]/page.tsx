@@ -7,13 +7,16 @@
 import { getAllCountries, getCountryBySlug, stripHtml } from '@/lib/data';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { Country } from '@/lib/types';
+import { Category, Country, NestedTextField, TextField } from '@/lib/types';
 import type { Metadata } from 'next';
 import Footer from '@/components/Footer';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
+
+type CategoryWithGroups<Fields extends string> = Category &
+  Partial<Record<Fields, NestedTextField>>;
 
 // Generate all country routes at build time
 export async function generateStaticParams() {
@@ -95,14 +98,26 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 
 // Extract organized data from country
 function extractSectionData(country: Country) {
-  const geo = country.Geography as any || {};
-  const people = country['People and Society'] as any || {};
-  const govt = country.Government as any || {};
-  const econ = country.Economy as any || {};
-  const intro = country.Introduction as any || {};
-  const env = country.Environment as any || {};
-  const comm = country.Communications as any || {};
-  const trans = country.Transportation as any || {};
+  const geo = country.Geography as CategoryWithGroups<'Area' | 'Land boundaries'> | undefined || {};
+  const people = country['People and Society'] as CategoryWithGroups<
+    'Population' | 'Life expectancy at birth' | 'Literacy' | 'Urbanization'
+  > | undefined || {};
+  const govt = country.Government as CategoryWithGroups<
+    'Capital' | 'Constitution' | 'Executive branch' | 'Legislative branch'
+  > | undefined || {};
+  const econ = country.Economy as CategoryWithGroups<
+    'GDP - per capita (PPP)' | 'Exports' | 'Imports'
+  > | undefined || {};
+  const intro = country.Introduction || {};
+  const env = country.Environment as CategoryWithGroups<
+    'Environment - international agreements'
+  > | undefined || {};
+  const comm = country.Communications as CategoryWithGroups<
+    'Internet users' | 'Mobile cellular'
+  > | undefined || {};
+  const trans = country.Transportation as CategoryWithGroups<
+    'Airports' | 'Railways' | 'Roadways'
+  > | undefined || {};
   
   return {
     overview: {
@@ -161,7 +176,7 @@ function extractSectionData(country: Country) {
 
 // Get coordinates for map
 function getCoordinates(country: Country): { lat: number; lng: number } | null {
-  const geo = country.Geography as any;
+  const geo = country.Geography as { 'Geographic coordinates'?: TextField } | undefined;
   const coords = geo?.['Geographic coordinates']?.text;
   if (!coords) return null;
   
