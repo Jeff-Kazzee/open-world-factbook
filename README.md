@@ -126,7 +126,7 @@ and its `push` trigger covers only `dev` and `prod`. Changes on another branch
 can be checked through a pull request.
 
 On 2026-11-14, the application and CI files recorded in commit
-[`aab1c3a5caa08e4aa17c9ca1c93654ae7ad55943`](https://github.com/Jeff-Kazzee/open-world-factbook/commit/aab1c3a5caa08e4aa17c9ca1c93654ae7ad55943)
+[`386938a3631590054223d0882aa2864489355126`](https://github.com/Jeff-Kazzee/open-world-factbook/commit/386938a3631590054223d0882aa2864489355126)
 passed these workflow commands locally on Debian 13 Linux. See the pull
 request's checks for hosted results at its current head.
 
