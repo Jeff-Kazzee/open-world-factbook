@@ -98,7 +98,9 @@ from pathlib import Path
 child = os.fork()
 if child == 0:
     signal.signal(signal.SIGTERM, signal.SIG_IGN)
-    Path('child.pid').write_text(str(os.getpid()))
+    child_pid = Path('child.pid.tmp')
+    child_pid.write_text(str(os.getpid()))
+    child_pid.replace('child.pid')
     time.sleep(30)
     os._exit(0)
 time.sleep(30)
